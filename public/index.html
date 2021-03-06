@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+    <title>RestCountries</title>
+  </head>
+  <body>
+
+    <table class="table table-hover table-striped table-info w-75">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Capital</th>
+          <th>Population</th>
+          <th>Borders</th>
+          <th>Flag</th>
+        </tr>
+      </thead>
+      <tbody id="result">
+
+      </tbody>
+    </table>
+
+    <script>
+      $.ajax({
+          url:"https://restcountries.eu/rest/v2/all",
+          type: "get",
+          success:function(data){
+            var rs = "";
+            for(i in data){
+                rs += "<tr>";
+                c = i + 1;
+                rs += "<td>"+c+"</td>";
+                rs += "<td>" + data[i].name+ "</td>";
+                rs += "<td>" + data[i].capital+ "</td>";
+                rs += "<td>" + data[i].population+ "</td>";
+                rs += "<td><ol>";
+                for (j in data[i].borders){
+                  rs += "<li>" + data[i].borders[j]+ "</li>";
+                }
+                rs += "</ol></td>";
+                rs += "<td>" + data[i].flag+ "</td>";
+                rs += "<td><img src='"+data[i].flag+"' style= 'height:100px;width:100%;'></td>";
+                rs += "</tr>";
+            }
+            document.getElementById("result").innerHTML = rs;
+          }
+      })
+    </script>
+  </body>
+</html>
